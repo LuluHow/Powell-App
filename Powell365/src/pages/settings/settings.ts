@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { HomePage } from '../home/home';
+import { MyApp } from '../../app/app.component';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Storage } from '@ionic/storage';
@@ -22,15 +23,15 @@ export class SettingsPage {
   	this.scanner.scan().then((data) => {
 		 	if(data.text) {
 		 		let parsedData = JSON.parse(data.text);
-		 		alert(data.text);
 		 		let settings = {
 		 			"ConfigId": parsedData.siteCollConfigId,
 					"SiteCollUrl": parsedData.siteCollUrl,
 					"UserLoginName": parsedData.userLoginName,
 	                "ClearWebCache": true
 		 		}
+
 		 		_this.storage.set("powell_settings", JSON.stringify(settings)).then(() => {
-		 			_this.navCtrl.setRoot(HomePage, {}, { animate: true, direction: 'forward' });
+		 			_this.navCtrl.setRoot(MyApp, {}, { animate: true, direction: 'forward' });
 		 		});
 		 	}
 		}, (err) => {

@@ -18,6 +18,7 @@ import { BrowserTab } from '@ionic-native/browser-tab';
 
 import { IonicStorageModule } from '@ionic/storage';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { FCM } from '@ionic-native/fcm';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
     BarcodeScanner,
     PowellServices,
     BrowserTab,
+    FCM,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

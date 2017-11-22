@@ -1,11 +1,24 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      About
+      Notifications
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-
+<ion-content>
+	<ion-list>
+	  <ion-item-sliding  #item *ngFor='let notification of notifications; trackBy: index;'>
+	    <ion-item (click)="navigateTo(notification.url)">
+	    	<h2>{{notification.title}}</h2>
+	        <p>{{notification.body}}</p>
+	        <ion-note item-end>
+	          {{notification.date | date:'shortTime'}}
+	        </ion-note>
+	    </ion-item>
+	    <ion-item-options side="right">
+	      <button ion-button color="danger" (click)="removeNotification(notification)">Delete</button>
+	    </ion-item-options>
+	  </ion-item-sliding>
+	</ion-list>
 </ion-content>
