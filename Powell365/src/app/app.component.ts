@@ -81,6 +81,14 @@ export class MyApp {
         data.push(notif);
 
         this.storage.set("powell_notifications", JSON.stringify(data)).then(() => {
+          this.storage.get('powell_badgeCount').then((count) => {
+            if(count !== null) {
+              count = parseInt(count);
+              count = count + 1;
+
+              this.storage.set("powell_badgeCount", count);
+            }
+          });
           resolve();
         });
       });
