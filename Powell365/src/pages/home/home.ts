@@ -1,6 +1,7 @@
-import { Component, Renderer, ElementRef } from '@angular/core';
+import { Component, Renderer, ElementRef, ViewChild} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { Content } from 'ionic-angular';
 
 import { SettingsPage } from '../settings/settings';
 import { PowellServices } from '../../app/app.service';
@@ -20,6 +21,7 @@ export class HomePage {
 	private config;
 	public htmlString;
   public barTitle;
+  @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController, private browserTab: BrowserTab, elementRef: ElementRef,
   renderer: Renderer, private storage: Storage, private service: PowellServices, private sanitized: DomSanitizer, private splashScreen: SplashScreen) {
@@ -71,11 +73,10 @@ export class HomePage {
   			data = JSON.parse(data);
   			_this.service.get(data.ConfigId).subscribe(config => { 
   				_this.config = config;
-
-          alert(_this.config.App.ContentHtml);
           _this.barTitle = _this.config.App.BarTitle;
   				_this.htmlString = _this.sanitized.bypassSecurityTrustHtml(_this.config.App.ContentHtml);
           _this.splashScreen.hide();
+          _this.content.resize();
   			},
   			err => {
   				alert('fuck off');

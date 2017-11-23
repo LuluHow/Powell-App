@@ -1,5 +1,5 @@
 <ion-tabs>
   <ion-tab [root]="tab1Root" tabTitle="" tabIcon="home"></ion-tab>
-  <ion-tab (ionSelect)="resetBadgeCount()" [root]="tab2Root" tabBadgeStyle="danger" tabBadge="1" tabTitle="" tabIcon="notifications"></ion-tab>
+  <ion-tab (ionSelect)="resetBadgeCount()" [root]="tab2Root" tabBadgeStyle="danger" tabBadge="{{badgeCount}}" tabTitle="" tabIcon="notifications"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="" tabIcon="settings"></ion-tab>
 </ion-tabs>

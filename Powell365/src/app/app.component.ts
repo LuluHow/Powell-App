@@ -85,9 +85,10 @@ export class MyApp {
             if(count !== null) {
               count = parseInt(count);
               count = count + 1;
-
-              this.storage.set("powell_badgeCount", count);
+            } else {
+              count = 1;
             }
+            this.storage.set("powell_badgeCount", count);
           });
           resolve();
         });
