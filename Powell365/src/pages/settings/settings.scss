@@ -1,3 +1,70 @@
 page-settings {
 	text-align: center;
+
+	.qr-code-container {
+		height: 100%;
+		display: flex;
+		flex-flow: column;
+	}
+	
+	.qr-center {
+		margin: auto 0;
+	}
+	
+	.qr-helper-container {
+		position: relative;
+		margin: 0;
+		height: 0;
+		padding-bottom: 100%;
+		background: rgba(255,255,255,0.7);
+		margin-bottom: 10px;
+	}
+	
+	.qr-text-container {
+		overflow: hidden;
+		position: absolute;
+		top: 50%; left: 10%;
+		transform: translate3d(0,-50%,0);
+		width: 80%;
+		padding: 10px;
+		background: rgba(255,255,255,0.5);
+	}
+	
+	.qr-text-container ion-icon,
+	.qr-text-container .text {
+		display: block;
+		margin: 10px;
+	}
+	
+	.qr-text-container ion-icon {
+		display: block;
+		margin: 10px;
+	}
+	
+	.qr-text-container .border {
+		position: absolute;
+		height: 0; width: 10vw;
+		padding-bottom: 10vw;
+		border: 5px solid transparent;
+	}
+	
+	.up-left {
+		top: 2vw; left: 2vw;
+		border-width: 3px 0 0 3px;
+	}
+	
+	.up-right {
+		top: 2vw; right: 2vw;
+		border-width: 3px 3px 0 0;
+	}
+	
+	.down-left {
+		bottom: 2vw; left: 2vw;
+		border-width: 0 0 3px 3px;
+	}
+	
+	.down-right {
+		bottom: 2vw; right: 2vw;
+		border-width: 0 3px 3px 0;
+	}
 }

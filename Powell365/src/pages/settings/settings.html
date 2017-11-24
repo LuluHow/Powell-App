@@ -1,12 +1,25 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Settings
-    </ion-title>
+  <ion-navbar color="primary" no-border-bottom>
+    <ion-title>Settings</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-	<img src="assets/imgs/cfgqrcode.png" />
-	<button color="scanner" ion-button round (click)="scan()">Scan QRCode</button>
+    <div class="qr-code-container">
+      <div class="qr-center">
+          <div class="qr-helper-container">
+            <span class="border up-left"></span>
+            <span class="border down-left"></span>
+            <span class="border up-right"></span>
+            <span class="border down-right"></span>
+            <div class="qr-text-container">
+              <div class="qr-text">
+                <span class="text">Connect to your portal and scan the QR Code in the gear</span>
+                <ion-icon class="text-3x" name="camera-outline"></ion-icon>
+              </div>
+            </div>
+          </div>
+          <button ion-button (click)="scan()">Scan QRCode</button>
+      </div>
+    </div>
 </ion-content>
