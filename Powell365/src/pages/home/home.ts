@@ -59,33 +59,32 @@ export class HomePage {
   	let _this = this;
   	let returnValue: Boolean;
 
-  	// _this.service.get(1081).subscribe(config => { 
-  	// 			_this.config = config;
-
-  	// 			_this.htmlString = _this.sanitized.bypassSecurityTrustHtml(_this.config.App.ContentHtml);
-  	// 		},
-  	// 		err => {
-  	// 			alert('fuck off');
-  	// 		});
-
-  	_this.storage.get('powell_settings').then((data) => {
-  		if(data !== null) {
-  			data = JSON.parse(data);
-  			_this.service.get(data.ConfigId).subscribe(config => { 
+  	_this.service.get(1081).subscribe(config => { 
   				_this.config = config;
-          _this.barTitle = _this.config.App.BarTitle;
+
   				_this.htmlString = _this.sanitized.bypassSecurityTrustHtml(_this.config.App.ContentHtml);
-          _this.splashScreen.hide();
-          _this.content.resize();
   			},
   			err => {
   				alert('fuck off');
   			});
-  		} else {
-        _this.splashScreen.hide();
-  			_this.navCtrl.setRoot(SettingsPage, {}, { animate: true, direction: 'forward' });
-  		}
-  	});
+
+  	// _this.storage.get('powell_settings').then((data) => {
+  	// 	if(data !== null) {
+  	// 		data = JSON.parse(data);
+  	// 		_this.service.get(data.ConfigId).subscribe(config => { 
+  	// 			_this.config = config;
+   //        _this.barTitle = _this.config.App.BarTitle;
+  	// 			_this.htmlString = _this.sanitized.bypassSecurityTrustHtml(_this.config.App.ContentHtml);
+   //        _this.splashScreen.hide();
+   //        _this.content.resize();
+  	// 		},
+  	// 		err => {
+  	// 		});
+  	// 	} else {
+   //      _this.splashScreen.hide();
+  	// 		_this.navCtrl.setRoot(SettingsPage, {}, { animate: true, direction: 'forward' });
+  	// 	}
+  	// });
 
   	return returnValue;
   }
