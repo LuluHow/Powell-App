@@ -7,6 +7,9 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class PowellServices {
 
+	private R7CDNRootUrl: string = "https://r7-cdn.powell-365.com";
+	private CDNRootUrl: string = "https://cdn.powell-365.com";
+
 	constructor(private http: Http) { }
 
 	createRefererHeader(headers: Headers, configId: number):void {
@@ -22,7 +25,15 @@ export class PowellServices {
 	    let headers = new Headers();
 	    this.createRefererHeader(headers, configId);
 
-	    let url = 'https://r7-cdn.powell-365.com/api/Manager/GetConfigAppPhone/' + configId;
+	    let url = this.R7CDNRootUrl + '/api/Manager/GetConfigAppPhone/' + configId;
+	    return this.http.get(url, { headers: headers }).map(res => res.json());
+	}
+
+	getNotifications(configId: number): Observable<any> {
+		let headers = new Headers();
+	    this.createRefererHeader(headers, configId);
+
+	    let url = this.R7CDNRootUrl + '/app-mobile/notification/' + configId;
 	    return this.http.get(url, { headers: headers }).map(res => res.json());
 	}
 }

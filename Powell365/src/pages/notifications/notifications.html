@@ -9,11 +9,11 @@
 <ion-content>
 	<ion-list>
 	  <ion-item-sliding  #item *ngFor='let notification of notifications; trackBy: index;'>
-	    <ion-item (click)="navigateTo(notification.url)">
-	    	<h2>{{notification.title}}</h2>
-	        <p>{{notification.body}}</p>
+	    <ion-item (click)="navigateTo(notification.Url)">
+	    	<h2>{{notification.Title}}</h2>
+	        <p>{{notification.Body}}</p>
 	        <ion-note item-end>
-	          {{notification.date | date:'shortTime'}}
+	          {{notification.Date | date:'shortTime'}}
 	        </ion-note>
 	    </ion-item>
 	    <ion-item-options side="right">

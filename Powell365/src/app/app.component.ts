@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 import { Events } from 'ionic-angular';
 import { BrowserTab } from '@ionic-native/browser-tab';
 import { ToastController } from 'ionic-angular';
+import { PowellServices } from '../app/app.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,15 +17,20 @@ export class MyApp {
   rootPage:any = TabsPage;
   configId:number;
 
-  constructor(platform: Platform, statusBar: StatusBar, private toastCtrl: ToastController, private browserTab: BrowserTab, private fcm: FCM, private storage: Storage, public events: Events) {
+  constructor(platform: Platform, statusBar: StatusBar, private toastCtrl: ToastController, private browserTab: BrowserTab, private fcm: FCM, private storage: Storage, public events: Events, private service: PowellServices) {
     platform.ready().then(() => {
       statusBar.styleDefault();
-      this.getConfigId().then(() => {
-        this.enableNotifications(this.configId.toString());
+      // this.getConfigId().then(() => {
+        this.service.getNotifications(1081).subscribe(data => {
+          this.storeNotification(data.Notification);
+        }, err => {
+
+        });
+        // this.enableNotifications(this.configId.toString());
       });
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-    });
+    // });
   }
 
   getConfigId(): Promise<void> {
@@ -77,19 +83,14 @@ export class MyApp {
           data = [];
         }
 
-        notif.date = Date.now();
-        data.push(notif);
-
-        this.storage.set("powell_notifications", JSON.stringify(data)).then(() => {
-          this.storage.get('powell_badgeCount').then((count) => {
-            if(count !== null) {
-              count = parseInt(count);
-              count = count + 1;
-            } else {
-              count = 1;
-            }
-            this.storage.set("powell_badgeCount", count);
-          });
+        if(Array.isArray(notif)) {
+          data = notif;
+        }
+         else {
+           data.push(notif);
+         }
+       alert(data);
+        this.storage.set("powell_notifications", JSON.stringify(data.splice(30))).then(() => {
           resolve();
         });
       });

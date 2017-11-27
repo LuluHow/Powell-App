@@ -27,6 +27,7 @@ export class NotificationsPage {
 
   getNotifications(): void {
   	this.storage.get('powell_notifications').then((data) => {
+      alert(data);
   		if(data !== null) {
   			data = JSON.parse(data);
   			this.notifications = data;
