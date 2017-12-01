@@ -3,10 +3,12 @@ import { NavController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Content } from 'ionic-angular';
 
+import { Events } from 'ionic-angular';
 import { SettingsPage } from '../settings/settings';
 import { PowellServices } from '../../app/app.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { normalizeURL } from 'ionic-angular';
+import { NgZone } from '@angular/core';
 
 import { BrowserTab } from '@ionic-native/browser-tab';
 
@@ -22,11 +24,13 @@ export class HomePage {
 	public htmlString;
   public cssString;
   public barTitle;
+  public zone: NgZone;
   @ViewChild(Content) content: Content;
 
   constructor(public navCtrl: NavController, private browserTab: BrowserTab, elementRef: ElementRef,
-  renderer: Renderer, private storage: Storage, private service: PowellServices, private sanitized: DomSanitizer, private splashScreen: SplashScreen) {
+  renderer: Renderer, private storage: Storage, private service: PowellServices, private sanitized: DomSanitizer, private splashScreen: SplashScreen, public events: Events) {
   		var _this = this;
+      _this.zone = new NgZone({ enableLongStackTrace: false });
   		_this.checkForSettings();
 
   		renderer.listen(elementRef.nativeElement, 'click', (event) => {
@@ -74,15 +78,15 @@ export class HomePage {
   		if(data !== null) {
   			data = JSON.parse(data);
   			_this.service.get(data.ConfigId).subscribe(config => { 
-  				_this.config = config;
-          _this.barTitle = _this.config.App.BarTitle;
-   _this.storage.set("powell_render", JSON.stringify(_this.config.App));
-  				_this.htmlString = _this.sanitized.bypassSecurityTrustHtml(_this.config.App.ContentHtml);
-          _this.cssString = _this.sanitized.bypassSecurityTrustHtml("<style>"+_this.config.App.ContentCss+"</style>");
-          _this.splashScreen.hide();
-          _this.content.resize();
+  				_this.setConfiguration(config);
   			},
   			err => {
+          _this.storage.get("powell_render").then((config) => {
+            if(config !== null) {
+              config = JSON.parse(config);
+              _this.setConfiguration(config);
+            }
+          })
   			});
   		} else {
         _this.splashScreen.hide();
@@ -91,6 +95,20 @@ export class HomePage {
   	});
 
   	return returnValue;
+  }
+
+  setConfiguration(config: any): void {
+    let _this = this;
+    _this.zone.run(() => {
+      _this.config = config;
+      _this.events.publish('configuration:ready', config);
+      _this.barTitle = _this.config.App.BarTitle;
+      _this.storage.set("powell_render", JSON.stringify(_this.config));
+      _this.htmlString = _this.sanitized.bypassSecurityTrustHtml(_this.config.App.ContentHtml);
+      _this.cssString = _this.sanitized.bypassSecurityTrustHtml("<style>"+_this.config.App.ContentCss+"</style>");
+      _this.splashScreen.hide();
+      _this.content.resize();
+    });
   }
 
   navigateTo(url: string): void {

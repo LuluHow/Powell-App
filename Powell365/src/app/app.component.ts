@@ -20,17 +20,12 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, private toastCtrl: ToastController, private browserTab: BrowserTab, private fcm: FCM, private storage: Storage, public events: Events, private service: PowellServices) {
     platform.ready().then(() => {
       statusBar.styleDefault();
-      // this.getConfigId().then(() => {
-        this.service.getNotifications(1081).subscribe(data => {
-          this.storeNotification(data.Notification);
-        }, err => {
-
-        });
-        // this.enableNotifications(this.configId.toString());
+      this.getConfigId().then(() => {
+        this.enableNotifications(this.configId.toString());
       });
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-    // });
+    });
   }
 
   getConfigId(): Promise<void> {
@@ -50,14 +45,12 @@ export class MyApp {
   enableNotifications(configId: string): void {
     this.fcm.subscribeToTopic(configId);
     this.fcm.onNotification().subscribe(data=>{
-      this.storeNotification(data).then(() => {
         this.events.publish('notification:pushed', data);
-
         if(data.wasTapped) {
           this.browserTab.openUrl(data.url);
         } else {
           let toast = this.toastCtrl.create({
-          message: data.body,
+          message: data.aps.alert.body,
           duration: 5000,
           position: 'top',
           showCloseButton: true,
@@ -70,30 +63,6 @@ export class MyApp {
 
         toast.present();
         }
-      });
     });
-  }
-
-  storeNotification(notif: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.storage.get('powell_notifications').then((data) => {
-        if(data !== null) {
-          data = JSON.parse(data);
-        } else {
-          data = [];
-        }
-
-        if(Array.isArray(notif)) {
-          data = notif;
-        }
-         else {
-           data.push(notif);
-         }
-       alert(data);
-        this.storage.set("powell_notifications", JSON.stringify(data.splice(30))).then(() => {
-          resolve();
-        });
-      });
-    });  
   }
 }

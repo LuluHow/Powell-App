@@ -19,6 +19,7 @@ import { BrowserTab } from '@ionic-native/browser-tab';
 import { IonicStorageModule } from '@ionic/storage';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FCM } from '@ionic-native/fcm';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FCM } from '@ionic-native/fcm';
     NotificationsPage,
     SettingsPage,
     HomePage,
-    TabsPage
+    TabsPage,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,

@@ -5,8 +5,7 @@
 </ion-header>
 
 <ion-content>
-<<<<<<< HEAD
-	<ion-list>
+	<!-- <ion-list>
 	  <ion-item-sliding  #item *ngFor='let notification of notifications; trackBy: index;'>
 	    <ion-item (click)="navigateTo(notification.Url)">
 	    	<h2>{{notification.Title}}</h2>
@@ -19,30 +18,28 @@
 	      <button ion-button color="danger" (click)="removeNotification(notification)">Delete</button>
 	    </ion-item-options>
 	  </ion-item-sliding>
-	</ion-list>
-</ion-content>
-=======
-	<ion-row class="bg-white wrapper-sm m-t-sm" *ngFor='let notification of [1,2,3]; trackBy: index;'>
+	</ion-list> -->
+
+	<ion-row (click)="navigateTo(notification.Url)" class="bg-white wrapper-sm m-t-sm" *ngFor='let notification of notifications; trackBy: index;'>
 		<ion-col col-auto>
 			<ion-avatar item-start>
 				<div class="thumb-sm">
-						<img src="http://www.beat.de/sites/beat.de/themes/beat/images/og-image.png" alt="" class=" link-image ">
+						<ion-icon name="paper"></ion-icon>
 				</div>
 			</ion-avatar>
-			<div class="text-muted text-xs text-center">5h{{notification.date | date:'shortTime'}}</div>
+			<div class="text-muted text-xs text-center">{{notification.Date | timeAgo}}</div>
 		</ion-col>
 		<ion-col class="text-ellipsis-flex">
 			<div class="l-h">
-				<div class="">Quanta autem vis amicitiae sit, ex hoc intellegi {{notification.title}}</div>
-				<div class="text-sm text-muted text-ellipsis">Et quia Montius inter dilancinantium manus spiritum efflaturus Epigonum et Eusebium nec professionem nec dignitatem ostendens aliquotiens increpabat {{notification.body}}</div>
+				<div class="">{{notification.Title}}</div>
+				<div class="text-sm text-muted text-ellipsis">{{notification.Body}}</div>
 			</div>
 		</ion-col>
-		<ion-col col-auto>
+		<!-- <ion-col col-auto>
 				<button clear ion-button (click)="removeNotification(notification)">
 						<ion-icon class="text-2x text-muted" name="trash-outline"></ion-icon>
 				</button>
-		</ion-col>
+		</ion-col> -->
 	</ion-row>
 
 </ion-content>
->>>>>>> 2958fab88578cd01defc9b1888d098a04b5d2b39
