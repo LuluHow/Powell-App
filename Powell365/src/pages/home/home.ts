@@ -1,9 +1,10 @@
 import { Component, Renderer, ElementRef, ViewChild} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Content } from 'ionic-angular';
+import { Content, Nav, NavParams } from 'ionic-angular';
 
 import { Events } from 'ionic-angular';
+import { TabsPage } from '../tabs/tabs';
 import { SettingsPage } from '../settings/settings';
 import { PowellServices } from '../../app/app.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -26,26 +27,35 @@ export class HomePage {
   public barTitle;
   public zone: NgZone;
   @ViewChild(Content) content: Content;
+  @ViewChild(Nav) navChild: Nav;
 
   constructor(public navCtrl: NavController, private browserTab: BrowserTab, elementRef: ElementRef,
-  renderer: Renderer, private storage: Storage, private service: PowellServices, private sanitized: DomSanitizer, private splashScreen: SplashScreen, public events: Events) {
+  renderer: Renderer, private storage: Storage, private service: PowellServices, private sanitized: DomSanitizer, private splashScreen: SplashScreen, public events: Events, public navParams: NavParams) {
   		var _this = this;
-      _this.zone = new NgZone({ enableLongStackTrace: false });
-  		_this.checkForSettings();
+      _this.init(renderer, elementRef);
+      _this.events.subscribe('app:isConfigured', () => {
+        _this.init(renderer, elementRef);
+      });
+  }
 
-  		renderer.listen(elementRef.nativeElement, 'click', (event) => {
-		    var rc;
-		    	var currentNode = event.target;
-		    	for (var i = 0; i < 3; i++) {
-		    		if(currentNode.attributes.to) {
-		    			rc = _this.processClickOnATag(currentNode.attributes.to.value);
-		    		} else {
-		    			currentNode = currentNode.parentNode;
-		    		}
-		    	}
-		    return rc;
-		  })
-  		}
+  init(renderer: Renderer, elementRef: ElementRef): void {
+    var _this = this;
+      _this.zone = new NgZone({ enableLongStackTrace: false });
+      _this.checkForSettings();
+
+      renderer.listen(elementRef.nativeElement, 'click', (event) => {
+        var rc;
+          var currentNode = event.target;
+          for (var i = 0; i < 3; i++) {
+            if(currentNode.attributes.to) {
+              rc = _this.processClickOnATag(currentNode.attributes.to.value);
+            } else {
+              currentNode = currentNode.parentNode;
+            }
+          }
+        return rc;
+      })
+  }
 
 	  processClickOnATag(href: string): void {
 		  this.browserTab.isAvailable()
@@ -90,7 +100,7 @@ export class HomePage {
   			});
   		} else {
         _this.splashScreen.hide();
-  			_this.navCtrl.setRoot(SettingsPage, {}, { animate: true, direction: 'forward' });
+  			_this.navCtrl.push(SettingsPage);
   		}
   	});
 
@@ -98,6 +108,7 @@ export class HomePage {
   }
 
   setConfiguration(config: any): void {
+    alert('SET SET');
     let _this = this;
     _this.zone.run(() => {
       _this.config = config;

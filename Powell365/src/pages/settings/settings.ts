@@ -6,6 +6,7 @@ import { MyApp } from '../../app/app.component';
 
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Storage } from '@ionic/storage';
+import { Events } from 'ionic-angular';
 
 @Component({
   selector: 'page-settings',
@@ -13,7 +14,7 @@ import { Storage } from '@ionic/storage';
 })
 export class SettingsPage {
 
-  constructor(public navCtrl: NavController, private scanner: BarcodeScanner, private storage: Storage) {
+  constructor(public navCtrl: NavController, private scanner: BarcodeScanner, private storage: Storage, public events: Events) {
   	
   }
 
@@ -31,7 +32,8 @@ export class SettingsPage {
 		 		}
 
 		 		_this.storage.set("powell_settings", JSON.stringify(settings)).then(() => {
-		 			_this.navCtrl.setRoot(MyApp, {}, { animate: true, direction: 'forward' });
+		 			_this.events.publish('app:isConfigured');
+		 			_this.navCtrl.pop();
 		 		});
 		 	}
 		}, (err) => {

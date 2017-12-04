@@ -44,7 +44,7 @@ export class TabsPage {
 	          });
 	          this.storeNotification(data.Notification);
 	          	this.zone.run(() => {
-			  		this.badgeCount = badgeCount;
+			  		this.badgeCount = (badgeCount === 0) ? "" : badgeCount;
 			  		this.storage.set("powell_badgeCount", this.badgeCount.toString());
 			  	});
 	        }, err => {

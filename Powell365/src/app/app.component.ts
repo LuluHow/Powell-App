@@ -7,7 +7,7 @@ import { FCM } from '@ionic-native/fcm';
 import { Storage } from '@ionic/storage';
 import { Events } from 'ionic-angular';
 import { BrowserTab } from '@ionic-native/browser-tab';
-import { ToastController } from 'ionic-angular';
+import { ToastController, Nav } from 'ionic-angular';
 import { PowellServices } from '../app/app.service';
 
 @Component({
@@ -22,6 +22,12 @@ export class MyApp {
       statusBar.styleDefault();
       this.getConfigId().then(() => {
         this.enableNotifications(this.configId.toString());
+      });
+
+      this.events.subscribe('app:isConfigured', () => {
+        this.getConfigId().then(() => {
+          this.enableNotifications(this.configId.toString());
+        });
       });
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
