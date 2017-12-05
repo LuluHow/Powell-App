@@ -25,7 +25,7 @@ export class PowellServices {
 	    let headers = new Headers();
 	    this.createRefererHeader(headers, configId);
 
-	    let url = this.R7CDNRootUrl + '/api/Manager/GetConfigAppPhone/' + configId;
+	    let url = this.CDNRootUrl + '/api/Manager/GetConfigAppPhone/' + configId;
 	    return this.http.get(url, { headers: headers }).map(res => res.json());
 	}
 
@@ -33,7 +33,7 @@ export class PowellServices {
 		let headers = new Headers();
 	    this.createRefererHeader(headers, configId);
 
-	    let url = this.R7CDNRootUrl + '/app-mobile/notification/' + configId;
+	    let url = this.CDNRootUrl + '/app-mobile/notification/' + configId;
 	    return this.http.get(url, { headers: headers }).map(res => res.json());
 	}
 }

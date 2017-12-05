@@ -108,7 +108,6 @@ export class HomePage {
   }
 
   setConfiguration(config: any): void {
-    alert('SET SET');
     let _this = this;
     _this.zone.run(() => {
       _this.config = config;
