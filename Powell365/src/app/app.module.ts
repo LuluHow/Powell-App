@@ -20,6 +20,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { FCM } from '@ionic-native/fcm';
 import { TimeAgoPipe } from 'time-ago-pipe';
+import { TabHiddenDirective } from './tab-hidden.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { TimeAgoPipe } from 'time-ago-pipe';
     SettingsPage,
     HomePage,
     TabsPage,
-    TimeAgoPipe
+    TimeAgoPipe,
+    TabHiddenDirective
   ],
   imports: [
     BrowserModule,

@@ -33,7 +33,11 @@ export class SettingsPage {
 
 		 		_this.storage.set("powell_settings", JSON.stringify(settings)).then(() => {
 		 			_this.events.publish('app:isConfigured');
-		 			_this.navCtrl.pop();
+		 			if(_this.navCtrl.canGoBack()) {
+		 				_this.navCtrl.pop();
+		 			} else {
+		 				_this.navCtrl.parent.select(0);
+		 			}
 		 		});
 		 	}
 		}, (err) => {
