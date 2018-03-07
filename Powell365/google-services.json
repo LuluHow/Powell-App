@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:932619640863:android:004ca9c97e6cda7e",
+        "mobilesdk_app_id": "1:932619640863:android:339776d97092be8a",
         "android_client_info": {
-          "package_name": "com.powell365.App"
+          "package_name": "powell365.powell365"
         }
       },
       "oauth_client": [

@@ -32,7 +32,7 @@ export class SettingsPage {
 		 		}
 
 		 		_this.storage.set("powell_settings", JSON.stringify(settings)).then(() => {
-		 			_this.events.publish('app:isConfigured');
+		 			_this.events.publish('app:isConfigured', settings);
 		 			if(_this.navCtrl.canGoBack()) {
 		 				_this.navCtrl.pop();
 		 			} else {

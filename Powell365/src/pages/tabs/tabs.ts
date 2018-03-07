@@ -18,6 +18,7 @@ export class TabsPage {
   tab3Root = SettingsPage;
 
   public activeNotifications: boolean = false;
+  public isConfigured: boolean = false;
   public zone: NgZone;
   public badgeCount: any;
   configId:number;
@@ -25,7 +26,13 @@ export class TabsPage {
   constructor(private storage: Storage, public events: Events, private service: PowellServices) {
   	this.zone = new NgZone({ enableLongStackTrace: false });
   	let badgeCount = 0;
-  	let lastOpening
+  	let lastOpening;
+    events.subscribe('configuration:ready', (config) => {
+          this.zone.run(() => {
+            this.isConfigured = true;
+            this.activeNotifications = config.App.IsNotification;
+          });
+      });
   	this.storage.get('powell_lastOpening').then((opening) => {
   		if(opening !== null) {
   			lastOpening = parseInt(opening);
@@ -66,11 +73,6 @@ export class TabsPage {
 			    });
 			});
 
-			events.subscribe('configuration:ready', (config) => {
-		  		this.zone.run(() => {
-			    	this.activeNotifications = config.App.IsNotification;
-			    });
-			});
 	  	});
   	});
   }

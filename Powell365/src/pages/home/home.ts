@@ -24,6 +24,7 @@ export class HomePage {
 	private config;
 	public htmlString;
   public cssString;
+  public isConfigured:boolean = false;
   public barTitle;
   public zone: NgZone;
   @ViewChild(Content) content: Content;
@@ -32,16 +33,19 @@ export class HomePage {
   constructor(public navCtrl: NavController, private browserTab: BrowserTab, elementRef: ElementRef,
   renderer: Renderer, private storage: Storage, private service: PowellServices, private sanitized: DomSanitizer, private splashScreen: SplashScreen, public events: Events, public navParams: NavParams) {
   		var _this = this;
-      _this.init(renderer, elementRef);
+      _this.zone = new NgZone({ enableLongStackTrace: false });
+      _this.checkForSettings();
       _this.events.subscribe('app:isConfigured', () => {
-        _this.init(renderer, elementRef);
+        _this.checkForSettings();
+        if(!_this.isConfigured) {
+          _this.isConfigured = true;
+          _this.init(renderer, elementRef);
+        }
       });
   }
 
   init(renderer: Renderer, elementRef: ElementRef): void {
     var _this = this;
-      _this.zone = new NgZone({ enableLongStackTrace: false });
-      _this.checkForSettings();
 
       renderer.listen(elementRef.nativeElement, 'click', (event) => {
         var rc;
@@ -49,6 +53,7 @@ export class HomePage {
           for (var i = 0; i < 3; i++) {
             if(currentNode.attributes.to) {
               rc = _this.processClickOnATag(currentNode.attributes.to.value);
+              break;
             } else {
               currentNode = currentNode.parentNode;
             }
@@ -62,7 +67,6 @@ export class HomePage {
 	    	.then((isAvailable: boolean) => {
 
 	      if (isAvailable && href) {
-
 	        this.browserTab.openUrl(href);
 
 	      }
@@ -100,7 +104,7 @@ export class HomePage {
   			});
   		} else {
         _this.splashScreen.hide();
-  			_this.navCtrl.push(SettingsPage);
+  			_this.navCtrl.parent.select(2);
   		}
   	});
 
@@ -112,6 +116,7 @@ export class HomePage {
     _this.zone.run(() => {
       _this.config = config;
       _this.events.publish('configuration:ready', config);
+      _this.events.publish('app:isConfigured');
       _this.barTitle = _this.config.App.BarTitle;
       _this.storage.set("powell_render", JSON.stringify(_this.config));
       _this.htmlString = _this.sanitized.bypassSecurityTrustHtml(_this.config.App.ContentHtml);
